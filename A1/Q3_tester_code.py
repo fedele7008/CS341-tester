@@ -1,4 +1,4 @@
-import numpy as np
+# import numpy as np
 import random
 from typing import Callable
 
@@ -6,7 +6,7 @@ seed = 1234
 
 class Building:
 
-    rng = np.random.default_rng(seed)
+    # rng = np.random.default_rng(seed)
     cid = 0
 
     def __init__(self, x: int, y: int, _id = None):
@@ -121,4 +121,4 @@ def test_bulk(my_answer: Callable[[list[Building]], None], number_of_random_trie
             total_fail += 1
 
     print('===============================================================================')
-    print(f'TEST SUMMARY: {total_fail} / {number_of_random_tries} ({total_fail * 100 / number_of_random_tries} % CASE FAILED)')
+    print(f'TEST SUMMARY: {number_of_random_tries - total_fail} / {number_of_random_tries} ({total_fail * 100 / number_of_random_tries} % CASE FAILED)')
