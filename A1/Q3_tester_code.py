@@ -16,11 +16,19 @@ class Building:
             numbuilding: int,
             max_x: int,
             max_y: int) -> list:
+        # buildings = []
+        # for _ in range(numbuilding):
+        #     x = Building.rng.integers(max_x, endpoint=True)
+        #     y = Building.rng.integers(max_y, endpoint=True)
+        #     buildings.append(Building(x, y))
+        # return buildings
+
         buildings = []
-        for _ in range(numbuilding):
-            x = Building.rng.integers(max_x, endpoint=True)
-            y = Building.rng.integers(max_y, endpoint=True)
-            buildings.append(Building(x, y))
+        buildings.append(Building(1,5))
+        buildings.append(Building(2,2))
+        buildings.append(Building(3,3))
+        buildings.append(Building(4,1))
+        buildings.append(Building(6,4))
         return buildings
     
     @staticmethod
