@@ -5,3 +5,4 @@ def my_solution(buildings: list[Building]) -> None:
 
 if __name__ == '__main__':
     test(my_solution)
+    test_bulk(my_solution, 5)

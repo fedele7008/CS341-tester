@@ -1,4 +1,5 @@
 import numpy as np
+import random
 from typing import Callable
 
 seed = 1234
@@ -6,33 +7,50 @@ seed = 1234
 class Building:
 
     rng = np.random.default_rng(seed)
+    cid = 0
 
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int, y: int, _id = None):
         self.coordinates = (x, y)
         self.dominance = None
+        if _id is None:
+            self.id = Building.cid
+        else:
+            self.id = _id
+        Building.cid += 1
     
     @staticmethod
-    def create_random_buildings(
-            numbuilding: int,
-            max_x: int,
-            max_y: int) -> list:
-        # buildings = []
-        # for _ in range(numbuilding):
-        #     x = Building.rng.integers(max_x, endpoint=True)
-        #     y = Building.rng.integers(max_y, endpoint=True)
-        #     buildings.append(Building(x, y))
-        # return buildings
+    def create_random_buildings(numbuilding: int) -> list:
 
         buildings = []
-        buildings.append(Building(1,5))
-        buildings.append(Building(2,2))
-        buildings.append(Building(3,3))
-        buildings.append(Building(4,1))
-        buildings.append(Building(6,4))
+        coordinates = []
+        used_x = set()
+        used_y = set()
+
+        while len(coordinates) < numbuilding:
+            x = random.randint(1, numbuilding)
+            y = random.randint(1, numbuilding)
+
+            if x not in used_x and y not in used_y:
+                coordinates.append((x, y))
+                used_x.add(x)
+                used_y.add(y)
+        
+        for i in range(numbuilding):
+            buildings.append(Building(coordinates[i][0], coordinates[i][1]))
+
         return buildings
+
+        # buildings = []
+        # buildings.append(Building(1,5))
+        # buildings.append(Building(2,2))
+        # buildings.append(Building(3,3))
+        # buildings.append(Building(4,1))
+        # buildings.append(Building(6,4))
+        # return buildings
     
     @staticmethod
     def print_dominance(buildings: list) -> None:
+        buildings.sort(key=lambda x: x.id)
         for building in buildings:
             print(f'{building.coordinates} : {building.dominance}')
 
@@ -56,16 +74,39 @@ def solution(buildings: list[Building]) -> None:
                 buildings[i].dominance += 1
 
 
-def test(my_answer: Callable[[list[Building]], None]) -> None:
-    buildings_solution = Building.create_random_buildings(7, 5, 5)
+def test(my_answer: Callable[[list[Building]], None], map_size = 7) -> None:
+    buildings_solution = Building.create_random_buildings(map_size)
     buildings_my_solution = []
     for i in range(len(buildings_solution)):
-        buildings_my_solution.append(Building(buildings_solution[i].coordinates[0], buildings_solution[i].coordinates[1]))
+        buildings_my_solution.append(Building(buildings_solution[i].coordinates[0], buildings_solution[i].coordinates[1], buildings_solution[i].id))
     solution(buildings_solution)
     my_answer(buildings_my_solution)
+
+    buildings_solution.sort(key=lambda x: x.id)
+    buildings_my_solution.sort(key=lambda x: x.id)
     
     print('Expected solution:')
     Building.print_dominance(buildings_solution)
 
     print('\nMy solution:')
     Building.print_dominance(buildings_my_solution)
+
+def test_bulk(my_answer: Callable[[list[Building]], None], number_of_random_tries: int, map_size = 100) -> None:
+    for trial in range(number_of_random_tries):
+        print(f'TRIAL: {trial} (Randomly generated map size: {map_size})')
+        buildings_solution = Building.create_random_buildings(map_size)
+        buildings_my_solution = []
+        for i in range(len(buildings_solution)):
+            buildings_my_solution.append(Building(buildings_solution[i].coordinates[0], buildings_solution[i].coordinates[1], buildings_solution[i].id))
+        solution(buildings_solution)
+        my_answer(buildings_my_solution)
+
+        buildings_solution.sort(key=lambda x: x.id)
+        buildings_my_solution.sort(key=lambda x: x.id)
+
+        for i in range(len(buildings_solution)):
+            if (buildings_my_solution[i].dominance != buildings_solution[i].dominance):
+                print(f'FAILED: ({buildings_solution[i].coordinates[0]}, {buildings_solution[i].coordinates[1]}) : {buildings_my_solution[i].dominance} (expected {buildings_solution[i].dominance})')
+            else:
+                print(f'PASSED: ({buildings_solution[i].coordinates[0]}, {buildings_solution[i].coordinates[1]}) : {buildings_my_solution[i].dominance}')
+        
