@@ -21,32 +21,32 @@ class Building:
     @staticmethod
     def create_random_buildings(numbuilding: int) -> list:
 
-        buildings = []
-        coordinates = []
-        used_x = set()
-        used_y = set()
-
-        while len(coordinates) < numbuilding:
-            x = random.randint(1, numbuilding)
-            y = random.randint(1, numbuilding)
-
-            if x not in used_x and y not in used_y:
-                coordinates.append((x, y))
-                used_x.add(x)
-                used_y.add(y)
-        
-        for i in range(numbuilding):
-            buildings.append(Building(coordinates[i][0], coordinates[i][1]))
-
-        return buildings
-
         # buildings = []
-        # buildings.append(Building(1,5))
-        # buildings.append(Building(2,2))
-        # buildings.append(Building(3,3))
-        # buildings.append(Building(4,1))
-        # buildings.append(Building(6,4))
+        # coordinates = []
+        # used_x = set()
+        # used_y = set()
+
+        # while len(coordinates) < numbuilding:
+        #     x = random.randint(1, numbuilding)
+        #     y = random.randint(1, numbuilding)
+
+        #     if x not in used_x and y not in used_y:
+        #         coordinates.append((x, y))
+        #         used_x.add(x)
+        #         used_y.add(y)
+        
+        # for i in range(numbuilding):
+        #     buildings.append(Building(coordinates[i][0], coordinates[i][1]))
+
         # return buildings
+
+        buildings = []
+        buildings.append(Building(1,5))
+        buildings.append(Building(2,2))
+        buildings.append(Building(3,3))
+        buildings.append(Building(4,1))
+        buildings.append(Building(6,4))
+        return buildings
     
     @staticmethod
     def print_dominance(buildings: list) -> None:
