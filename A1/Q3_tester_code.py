@@ -92,8 +92,12 @@ def test(my_answer: Callable[[list[Building]], None], map_size = 7) -> None:
     Building.print_dominance(buildings_my_solution)
 
 def test_bulk(my_answer: Callable[[list[Building]], None], number_of_random_tries: int, map_size = 100) -> None:
+    total_fail = 0
     for trial in range(number_of_random_tries):
-        print(f'TRIAL: {trial} (Randomly generated map size: {map_size})')
+        print('-------------------------------------------------------------------------------')
+        f_count = 0
+        total_count = 0
+        print(f'TRIAL: {trial + 1} (Randomly generated map size: {map_size})')
         buildings_solution = Building.create_random_buildings(map_size)
         buildings_my_solution = []
         for i in range(len(buildings_solution)):
@@ -105,8 +109,16 @@ def test_bulk(my_answer: Callable[[list[Building]], None], number_of_random_trie
         buildings_my_solution.sort(key=lambda x: x.id)
 
         for i in range(len(buildings_solution)):
+            total_count += 1
             if (buildings_my_solution[i].dominance != buildings_solution[i].dominance):
+                f_count += 1
                 print(f'FAILED: ({buildings_solution[i].coordinates[0]}, {buildings_solution[i].coordinates[1]}) : {buildings_my_solution[i].dominance} (expected {buildings_solution[i].dominance})')
             else:
                 print(f'PASSED: ({buildings_solution[i].coordinates[0]}, {buildings_solution[i].coordinates[1]}) : {buildings_my_solution[i].dominance}')
         
+        print(f'CASE SUMMARY: {f_count} / {total_count} ({f_count * 100 / total_count} % PASSED) - CASE {"FAILED" if f_count > 0 else "PASSED"}')
+        if f_count > 0:
+            total_fail += 1
+
+    print('===============================================================================')
+    print(f'TEST SUMMARY: {total_fail} / {number_of_random_tries} ({total_fail * 100 / number_of_random_tries} % CASE FAILED)')
