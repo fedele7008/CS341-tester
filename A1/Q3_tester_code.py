@@ -21,32 +21,32 @@ class Building:
     @staticmethod
     def create_random_buildings(numbuilding: int) -> list:
 
-        # buildings = []
-        # coordinates = []
-        # used_x = set()
-        # used_y = set()
-
-        # while len(coordinates) < numbuilding:
-        #     x = random.randint(1, numbuilding)
-        #     y = random.randint(1, numbuilding)
-
-        #     if x not in used_x and y not in used_y:
-        #         coordinates.append((x, y))
-        #         used_x.add(x)
-        #         used_y.add(y)
-        
-        # for i in range(numbuilding):
-        #     buildings.append(Building(coordinates[i][0], coordinates[i][1]))
-
-        # return buildings
-
         buildings = []
-        buildings.append(Building(1,5))
-        buildings.append(Building(2,2))
-        buildings.append(Building(3,3))
-        buildings.append(Building(4,1))
-        buildings.append(Building(6,4))
+        coordinates = []
+        used_x = set()
+        used_y = set()
+
+        while len(coordinates) < numbuilding:
+            x = random.randint(1, numbuilding)
+            y = random.randint(1, numbuilding)
+
+            if x not in used_x and y not in used_y:
+                coordinates.append((x, y))
+                used_x.add(x)
+                used_y.add(y)
+        
+        for i in range(numbuilding):
+            buildings.append(Building(coordinates[i][0], coordinates[i][1]))
+
         return buildings
+
+        # buildings = []
+        # buildings.append(Building(3,5))
+        # buildings.append(Building(2,4))
+        # buildings.append(Building(4,2))
+        # buildings.append(Building(5,3))
+        # buildings.append(Building(1,1))
+        # return buildings
     
     @staticmethod
     def print_dominance(buildings: list) -> None:
@@ -116,7 +116,7 @@ def test_bulk(my_answer: Callable[[list[Building]], None], number_of_random_trie
             else:
                 print(f'PASSED: ({buildings_solution[i].coordinates[0]}, {buildings_solution[i].coordinates[1]}) : {buildings_my_solution[i].dominance}')
         
-        print(f'CASE SUMMARY: {f_count} / {total_count} ({f_count * 100 / total_count} % PASSED) - CASE {"FAILED" if f_count > 0 else "PASSED"}')
+        print(f'CASE SUMMARY: {total_count - f_count} / {total_count} ({(total_count - f_count) * 100 / total_count} % PASSED) - CASE {"FAILED" if f_count > 0 else "PASSED"}')
         if f_count > 0:
             total_fail += 1
 

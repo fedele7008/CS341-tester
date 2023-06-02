@@ -13,7 +13,6 @@ def mergesort_and_count_upper_right(buildings: list[Building]) -> list[Building]
         left_index = 0
         right_index = 0
         merged_index = 0
-        pivot_index = -1
 
         result_buildings = copy.deepcopy(buildings)
 
@@ -21,25 +20,20 @@ def mergesort_and_count_upper_right(buildings: list[Building]) -> list[Building]
             if left[left_index].coordinates[1] < right[right_index].coordinates[1]:
                 result_buildings[merged_index] = left[left_index]
                 left_index += 1
-                pivot_index = merged_index
+                result_buildings[merged_index].dominance += len(right) - right_index
             else:
                 result_buildings[merged_index] = right[right_index]
-                if pivot_index > -1:
-                    if result_buildings[pivot_index].coordinates[0] < result_buildings[merged_index].coordinates[0]:
-                        result_buildings[pivot_index].dominance += 1
                 right_index += 1
             merged_index += 1
 
         while left_index < len(left):
             result_buildings[merged_index] = left[left_index]
             left_index += 1
+            result_buildings[merged_index].dominance += len(right) - right_index
             merged_index += 1
 
         while right_index < len(right):
             result_buildings[merged_index] = right[right_index]
-            if pivot_index > -1:
-                if result_buildings[pivot_index].coordinates[0] < result_buildings[merged_index].coordinates[0]:
-                    result_buildings[pivot_index].dominance += 1
             right_index += 1
             merged_index += 1
 
@@ -57,7 +51,6 @@ def mergesort_and_count_lower_left(buildings: list[Building]) -> list[Building]:
         left_index = 0
         right_index = 0
         merged_index = 0
-        pivot_index = -1
 
         result_buildings = copy.deepcopy(buildings)
 
@@ -65,25 +58,20 @@ def mergesort_and_count_lower_left(buildings: list[Building]) -> list[Building]:
             if left[left_index].coordinates[0] > right[right_index].coordinates[0]:
                 result_buildings[merged_index] = left[left_index]
                 left_index += 1
-                pivot_index = merged_index
+                result_buildings[merged_index].dominance += len(right) - right_index
             else:
                 result_buildings[merged_index] = right[right_index]
-                if pivot_index > -1:
-                    if result_buildings[pivot_index].coordinates[1] > result_buildings[merged_index].coordinates[1]:
-                        result_buildings[pivot_index].dominance += 1
                 right_index += 1
             merged_index += 1
 
         while left_index < len(left):
             result_buildings[merged_index] = left[left_index]
             left_index += 1
+            result_buildings[merged_index].dominance += len(right) - right_index
             merged_index += 1
 
         while right_index < len(right):
             result_buildings[merged_index] = right[right_index]
-            if pivot_index > -1:
-                if result_buildings[pivot_index].coordinates[1] > result_buildings[merged_index].coordinates[1]:
-                    result_buildings[pivot_index].dominance += 1
             right_index += 1
             merged_index += 1
 
@@ -108,5 +96,5 @@ def my_solution(buildings: list[Building]) -> None:
         buildings[i].dominance = upper_right_building[i].dominance + lower_left_building[i].dominance
 
 if __name__ == '__main__':
-    # test(my_solution, map_size = 7)
-    test_bulk(my_solution, number_of_random_tries = 10000, map_size = 250)
+    # test(my_solution, map_size = 15)
+    test_bulk(my_solution, number_of_random_tries = 10000, map_size = 25)
